@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# create script
+# This script creates a new bash script, sets permission and more
+# Author:Samuel James.
+
+# Is there an arguement?
+if [[ ! $1 ]]; then
+    echo "Missing Arguement !"
+    exit 1
+fi
+
+scriptname="$1"
+bindir="${HOME}/bin"
+filename="${bindir}/${scriptname}"
+
+if [[ -e $filename ]]; then
+    echo "Script ${filename} already exists."
+    exit 1
+fi
+
+if type "$scriptname" > /dev/null 2>&1; then
+    echo "There is already a command with the name ${scriptname}"
+    exit 1
+fi
+
+# check if bin directory exist.
+if [[ ! -d $bindir ]]; then
+    # if not create bin dir
+    if mkdir "$bindir"; then
+        echo "created ${bindir}"
+    else
+        echo "could not create ${bindir}"
+        exit 1
+    fi
+fi
+
+# create a script with a single line.
+echo '#!/bin/bash' > "$filename"
+# add executable permission
+chmod u+x "$filename"
+# open with Editor
+subl "$filename"
+
+
+# echo "end of code reached"
+exit 0
+
+
+
